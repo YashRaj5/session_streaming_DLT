@@ -152,3 +152,34 @@ stream = (spark.readStream
         .outputMode("append")
         .table("event_raw")
     )
+
+# COMMAND ----------
+
+# DBTITLE 1,Our table events_raw is ready and will contain all events
+# MAGIC %sql SELECT * FROM events_raw;
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Our Raw events are now ready to be analyzed
+# MAGIC
+# MAGIC It's now easy to run queries in our events_raw table. Our data is saved as JSON, databricks makes it easy to query:
+
+# COMMAND ----------
+
+# DBTITLE 1,Action per platform
+# MAGIC %sql
+# MAGIC select count(*), value:platform as platform from events_raw group by platform;
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Searching for duplicate events
+# MAGIC
+# MAGIC As you can see, our producer sends incorrect messages.
+# MAGIC
+# MAGIC Not only we have null event_id from time to time, but we also have duplicate events (identical events being send twice with the same ID and exact same content)
+
+# COMMAND ----------
+
+
